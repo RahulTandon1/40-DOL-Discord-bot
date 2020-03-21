@@ -1,10 +1,3 @@
-// imp date-times
-// const startTime = 
-// const endTime = 
-const interval = 5 * 1000 
-
-function exec() {
-    console.log('oops')
-}
-
-let daLoop = setInterval(exec, interval)
+const startTime = new Date('March 22, 2020 21:00:01')
+const lastDate = new Date('April 27, 2020 21:00:00')
+console.log(lastDate - startTime)
