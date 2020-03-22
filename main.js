@@ -1,55 +1,36 @@
 
 
 const Discord = require('discord.js');
+const cron = require('cron')
 const client = new Discord.Client();
+
 const dolChannelID = '689063973332582518'
+let dolChannel = null
 
 const msgs = {
     'morning': 'Pranam ji! Hope all of you are keep healthy, and have had a hearty breakfast. Let\'s get to work guys!',
     'evening': 'Hi guys! Please send an update on what you did today. Even if you didn\'t do anything no worries, but do inform us.',
     'finale': 'We hope EVERY SINGLE MEMBER that participated in these past 40 days had an AMAAAAAZING TIME, and learning A LOT! Do tell us how you liked the experience :-D. And remember always \n\n|| THIS IS NOIDA ||'
 }
-const startTime = new Date('March 22, 2020 9:00:01')
+const startTime = new Date('March 22, 2020 9:06:00')
 const lastDate = new Date('April 27, 2020 21:00:00')
-const twelveHours = 12 * 60 * 60 * 1000
 
+// --------------------------------------------------
 
-client.on('ready', () => {
-    
-    console.log('we\'re up and running!')
-    
-    // getting 40DOLChannel
-    try {
-        dolChannel = client.channels.fetch(dolChannelID)
-        dolChannel.send('Aaya le aaya, Chigga! #randomNonseJokesToMakeWhileGettingYourBotToWork')
+var wrapperJob = new cron.CronJob(startTime, function() {
+    execJob.start()
+}, null, true, 'Asia/Kolkata');
+
+let execJob = new cron.CronJob('1-60 9,21 * 3,4 *', function() {
+    let res = exec()
+    if (res.end) {
+        dolChannel.send(res.msg)
+        execJob.stop()
     }
-    catch(err){
-        console.log(err)
+    else if (res.msgExists) {
+        dolChannel.send(res.msg)
     }
-
-    // initiating the reminders
-    let rn = new Date()
-    
-    let mil_sec_to_wait = (rn - startTime) * 1000
-    
-    timeout = setTimeout(() => {
-        interval = setInterval(() => {
-            let res = exec()
-            if (res.end) {
-                // send msg finale
-                dolChannel.send(res.msg)
-                clearInterval(interval)
-            }
-            else if (res.msgExists) {
-                // send msg finale
-                dolChannel.send(res.msg)
-            }
-        }, twelveHours)
-    }, mil_sec_to_wait);
-
-
-})
-
+}, null, true, 'Asia/Kolkata')
 
 function exec() {
     let currDate = new Date()
@@ -89,5 +70,22 @@ function exec() {
         }
     }    
 }
+
+client.on('ready', () => {
+    
+    console.log('we\'re up and running!')
+    
+    // getting 40DOLChannel
+    try {
+        dolChannel = client.channels.fetch(dolChannelID)
+        dolChannel.send('Aaya le aaya, Chigga! #randomNonseJokesToMakeWhileGettingYourBotToWork')
+        wrapperJob.start()
+
+    }
+    catch(err){
+        console.log(err)
+    }
+})
+
 
 client.login('NjkwNzg2Nzc0MzUxNjA5ODY2.XnW_KA.kPKVR2xoieyo61I6qVMZjWfVcFE');
