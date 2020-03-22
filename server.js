@@ -30,7 +30,7 @@ function init(msgs, learningChannel) {
     const endTime = new Date('April 27, 2020 21:00:00') // time to end
     
     // time interval between message
-    const interv = 12 * 60 * 60 * 1000
+    const interv = 12 * 60 * 60
     
     // time out for when to start the interval
     client.setTimeout((msgs, learningChannel, endTime) => {
