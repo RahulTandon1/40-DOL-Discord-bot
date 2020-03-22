@@ -12,7 +12,7 @@ const msgs = {
     'evening': 'Hi guys! Please send an update on what you did today. Even if you didn\'t do anything no worries, but do inform us.',
     'finale': 'We hope EVERY SINGLE MEMBER that participated in these past 40 days had an AMAAAAAZING TIME, and learning A LOT! Do tell us how you liked the experience :-D. And remember always \n\n|| THIS IS NOIDA ||'
 }
-const startTime = new Date('March 22, 2020 10:00:00')
+const startTime = new Date('March 22, 2020 9:20:00')
 const lastDate = new Date('April 27, 2020 21:00:00')
 
 // --------------------------------------------------
