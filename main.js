@@ -21,7 +21,7 @@ var wrapperJob = new cron.CronJob(startTime, function() {
     execJob.start()
 }, null, true, 'Asia/Kolkata');
 
-let execJob = new cron.CronJob('1-31 9,21 * 3,4 *', function() {
+let execJob = new cron.CronJob('1-30 9,21 * 3,4 *', function() {
     let res = exec()
     if (res.end) {
         dolChannel.send(res.msg)
