@@ -12,7 +12,7 @@ const msgs = {
     'evening': 'Hi guys! Please send an update on what you did today. Even if you didn\'t do anything no worries, but do inform us.',
     'finale': 'We hope EVERY SINGLE MEMBER that participated in these past 40 days had an AMAAAAAZING TIME, and learning A LOT! Do tell us how you liked the experience :-D. And remember always \n\n|| THIS IS NOIDA ||'
 }
-const startTime = new Date('March 22, 2020 9:06:00')
+const startTime = new Date('March 22, 2020 10:00:00')
 const lastDate = new Date('April 27, 2020 21:00:00')
 
 // --------------------------------------------------
@@ -21,14 +21,26 @@ var wrapperJob = new cron.CronJob(startTime, function() {
     execJob.start()
 }, null, true, 'Asia/Kolkata');
 
-let execJob = new cron.CronJob('1-60 9,21 * 3,4 *', function() {
+let execJob = new cron.CronJob('1-31 9,21 * 3,4 *', function() {
     let res = exec()
     if (res.end) {
         dolChannel.send(res.msg)
-        execJob.stop()
+        .then( () => {
+            execJob.stop()
+        })
+        .catch( (err) => {
+            console.log('error while sending msg', err)
+        })
+        
     }
     else if (res.msgExists) {
         dolChannel.send(res.msg)
+        .then(()=> {
+            console.log('message sent')
+        })
+        .catch( (err) => {
+            console.log('error while sending msg', err)
+        })
     }
 }, null, true, 'Asia/Kolkata')
 
@@ -77,9 +89,17 @@ client.on('ready', () => {
     
     // getting 40DOLChannel
     try {
-        dolChannel = client.channels.fetch(dolChannelID)
-        dolChannel.send('Aaya le aaya, Chigga! #randomNonseJokesToMakeWhileGettingYourBotToWork')
-        wrapperJob.start()
+        client.channels.fetch(dolChannelID)
+        .then(channel => {
+            dolChannel = channel
+            dolChannel.send('Aaya le aaya, Chigga! #randomNonseJokesToMakeWhileGettingYourBotToWork')
+        })
+        .then(() => {
+            wrapperJob.start()
+        })
+        .catch((err) => {
+            console.log('erro \n \n', err)
+        })
 
     }
     catch(err){
