@@ -52,7 +52,7 @@ async function init(msgs, learningChannel) {
             console.log('inside Interval')
             
             // getting current time
-            let rn = new Date()
+            let rn = getIndiaDate()
             
             // last day is in future
             if (endTime > rn) {
