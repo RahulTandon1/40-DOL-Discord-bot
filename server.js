@@ -20,26 +20,32 @@ client.on('ready', () => {
 });
 
 
+function getIndiaDate() {
+    let temp = new Date()
+    temp.setMinutes( temp.getMinutes() + 330)    // 300 for 5 hrs + 30 for 30 mins
+    return temp
+}
 
-function init(msgs, learningChannel) {
+async function init(msgs, learningChannel) {
     // init log
     console.log('init started')
     
     // calculating time to wait + dateConstants
     
-    let rn = new Date()         // current time
-    const startTime = new Date('March 22, 2020 21:00:00')   // time to start
+    let rn = getIndiaDate()         // current time
+    const startTime = new Date('2020-03-23T21:00:00+05:30')   // time to start in India format
     let timeToWait = startTime - rn     // time to wait before starting theLoopy kinda stuff
-    const endTime = new Date('April 27, 2020 21:00:00') // time to end
+    const endTime = new Date('2020-04-27T20:59:00+05:30') // time to end in India format
     
     // time interval between message
     const interv = 12 * 60 * 60 * 1000
     
 
     // time out for when to start the interval
+
     client.setTimeout((msgs, learningChannel, endTime) => {
         
-        console.log('Timeout started')
+        console.log('Inside Timeout')
         
         // the main interval that should keep taking place
         let theLoop = client.setInterval( (msgs, learningChannel, endTime) => {
