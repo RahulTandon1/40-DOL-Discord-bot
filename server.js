@@ -1,10 +1,12 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
+let funky = require('./funky')
 
 msgs = {
+    wash: 'Everybody @here, go and wash your hands right now!',
     kids: ['Ravit', 'Arghya', 'Rushil', 'Arnav', 'Aarush', 'Shreyas', 'Shresth', 'Raghav', 'Ayush', 'Aditey'],
     morning: 'Good morning bois! \n I hope all of you are keeping healthy and safe, and have had a hearty breakast! C\'mon bois let\'s get to work!',
-    evening: `Evening fellas! Do share an update of what you did today. \n @${this.kids}`,
+    evening: `Evening fellas! Do share an update of what you did today. \n ${this.kids}`,
     finale: 'Ah! My final message is here my padawans! I hope that ALL of YOU who participated during these past 40DAYS have learnt A LOT, and I hope that you enjoyed a lot. Always remember\n\n \|\|THIS IS NOIDA\|\|'
 }
 
@@ -20,73 +22,48 @@ client.on('ready', () => {
 });
 
 
-function getIndiaDate() {
-    let temp = new Date()
-    temp.setMinutes( temp.getMinutes() + 330)    // 300 for 5 hrs + 30 for 30 mins
-    return temp
-}
-
 async function init(msgs, learningChannel) {
-    // init log
-    console.log('init started')
+    const timeToWait = funky.calcTimeToWait()
+    const interv = (60 * 60 * 1000)
+    const lastDay = new Date('April 27, 2020')
     
-    // calculating time to wait + dateConstants
-    
-    let rn = getIndiaDate()         // current time
-    const startTime = new Date('2020-03-23T21:00:00+05:30')   // time to start in India format
-    let timeToWait = startTime - rn     // time to wait before starting theLoopy kinda stuff
-    const endTime = new Date('2020-04-27T20:59:00+05:30') // time to end in India format
-    
-    // time interval between message
-    const interv = 12 * 60 * 60 * 1000
-    
+    try {
 
-    // time out for when to start the interval
-
-    client.setTimeout((msgs, learningChannel, endTime) => {
-        
-        console.log('Inside Timeout')
-        
-        // the main interval that should keep taking place
-        let theLoop = client.setInterval( (msgs, learningChannel, endTime) => {
-            console.log('inside Interval')
+        // time out for when to start the interval
+        await client.setTimeout((msgs, learningChannel, lastDay) => {
             
-            // getting current time
-            let rn = getIndiaDate()
-            
-            // last day is in future
-            if (endTime > rn) {
+            // 1 hr interval
+            let Loopy = client.setInterval(
                 
-                // if AM
-                // TOOGGLE MINUTES TO HOURS
-                if (rn.getHours() < 12) {
-                    // send morning msg
-                    learningChannel.send(msgs.morning)
-                    .then(()=> console.log('message sent'))
-                    .catch(err => console.log('Error \n', err))
-                }
-                // if PM
-                else {
-                    // send evening msg
-                    learningChannel.send(msgs.evening)
-                    .then(()=> console.log('message sent'))
-                    .catch(err => console.log('Error \n', err))
-                }
-            }
-            // if Today is last day or last day has passed
-            else {
-                // send last message
-                learningChannel.send(msgs.finale)
-                    .then(()=> console.log('LAST message sent'))
-                    .catch(err => console.log('Error \n', err))
-                // exit
-                client.clearInterval(theLoop)
-            }
+                async () => {
+                    
+                    // Check if NOT early (Midnight-8AM) in India
+                    if (! (funky.is_early_in_India())) {
+                        
+                        // hourly wash your hands message
+                        await learningChannel.send(msgs.wash)
 
-        },
-        interv, msgs, learningChannel, endTime)
-    }, 
-    timeToWait, msgs, learningChannel, endTime)
+                        // if 9:00 AM in India -> message to start learning
+                        if (funky.is_9AM_in_India()) {
+                            await learningChannel.send(msgs.morning)
+                        }
+                        // else if 9:00 PM in India -> message for update
+                        else if (funky.is_9PM_in_India()) {
+                            await learningChannel.send(msgs.evening)
+                            if (funky.isLastDay(lastDay)) {
+                                await learningChannel.send(msgs.finale)
+                            }
+                        }
+                    }
+                }
+            , interv, msgs, learningChannel, lastDay)
+
+        },timeToWait, msgs, learningChannel, lastDay)
+    }
+    catch (err) {
+        console.log('Error while running\n', err)
+    }
+
 }
 
 
