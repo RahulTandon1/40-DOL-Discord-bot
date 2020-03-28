@@ -59,10 +59,24 @@ function isLastDay(lastDay) {
         return false
     }
 }
+
+function dayOf40DOL() {
+    let rn = getIndiaDate()
+
+    // march
+    if (rn.getMonth() === 2) return `Day #${(rn.getDate() - 18 + 1)} of 40 march`
+
+    // will be april in other case
+    else return `Day #${(rn.getDate() + 13 + 1)} of 40`
+}
+
 // exporting functions
-module.exports.getIndiaDate = getIndiaDate
-module.exports.calcTimeToWait = calcTimeToWait
-module.exports.is_early_in_India = is_early_in_India
-module.exports.is_9AM_in_India = is_9AM_in_India
-module.exports.is_9PM_in_India = is_9PM_in_India
-module.exports.isLastDay = isLastDay
+module.exports = {
+    getIndiaDate,
+    calcTimeToWait,
+    is_early_in_India,
+    is_9AM_in_India,
+    is_9PM_in_India,
+    isLastDay, 
+    dayOf40DOL
+}
