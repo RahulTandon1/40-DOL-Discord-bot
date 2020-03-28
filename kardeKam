@@ -3,3 +3,4 @@
 git add .
 git commit -m 'random message'
 git push heroku master
+git push -u origin master
