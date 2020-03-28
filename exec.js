@@ -11,7 +11,7 @@ async function execTimingStuff(client, msgs, learningChannel) {
     // constant interval between message for washing hands (in milliseconds)
     // set to 2 hours right now
     // formula: no. of hours * 60 [mins / hour] * 60 [seconds / min] * 1000 [millisec / sec]
-    const interv = (2 * 60 * 60 * 1000)
+    const interv = (3 * 60 * 60 * 1000)
     
     // date on which the BOT stops posting messages
     const lastDay = new Date('April 27, 2020')
