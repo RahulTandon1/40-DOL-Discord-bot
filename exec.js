@@ -20,7 +20,7 @@ async function execTimingStuff(client, msgs, learningChannel) {
 
         // time out for when to start the setInterval
         await client.setTimeout((msgs, learningChannel, lastDay) => {
-            
+            console.log('inside timeout')
             let Loopy = client.setInterval(
                 
                 async () => {
@@ -52,6 +52,8 @@ async function execTimingStuff(client, msgs, learningChannel) {
             , interv, msgs, learningChannel, lastDay)
 
         },timeToWait, msgs, learningChannel, lastDay)
+        
+        console.log('Timeout scheduled')
     }
     catch (err) {
         console.log('Error while running\n', err)

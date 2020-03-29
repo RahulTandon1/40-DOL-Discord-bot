@@ -6,7 +6,6 @@ function getIndiaDate() {
 
 function calcTimeToWait() {
     let rn = getIndiaDate()
-    var hrsToWait
     var minsToWait
     var millisecondsToWait
     switch(rn.getHours() % 3) {
@@ -33,6 +32,7 @@ function calcTimeToWait() {
     
     // adding 1 min delay
     millisecondsToWait += (60 * 1000)
+    console.log('Milliseconds to wait', millisecondsToWait)
     return millisecondsToWait
 }
 
