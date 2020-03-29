@@ -1,9 +1,6 @@
-function oops() {
-    x = 10
-    if (x === 10) {
-        return true
-    }
-}
+let a = new Date()
+console.log(a)
+b = a
+a.setMinutes(a.getMinutes + 1)
 
-if (oops()) console.log('hello world')
-else console.log('not hello world')
+b.getTime() = a.getTime

@@ -17,7 +17,13 @@ async function verify_command_and_execute(text, msgs, channel) {
                 kidName = kidName.trim()
                 if (kidName !== '') msgs.kids.push(kidName.toLocaleLowerCase())
             })
-            await channel.send('Kids added')
+            
+            try {
+                await channel.send('Kids added')
+            }
+            catch (err) {
+                console.log('Error in addKids', err)
+            }
         }
 
         // ----------  removeKids message ---------------
@@ -38,7 +44,12 @@ async function verify_command_and_execute(text, msgs, channel) {
                 }
                 
             })
-            await channel.send('Kids present in list removed')
+            try{
+                await channel.send('Kids present in list removed')
+            }
+            catch (err) {
+                console.log('error in removeKids', err)
+            }
         }
         // ------- listKids -------------------
         else if (tempCommand.startsWith('listKids')) {
@@ -46,7 +57,12 @@ async function verify_command_and_execute(text, msgs, channel) {
             msgs.kids.forEach( async (kidName) => {
                 tempMessage += `${kidName}\n`
             })
-            await channel.send(tempMessage)
+            try {
+                await channel.send(tempMessage)
+            }
+            catch(err) {
+                console.log('error in listKids', err)
+            }
         }
         else {
             await channel.send('Command not valid')

@@ -45,3 +45,5 @@ client.on('message', async message => {
 
 
 client.login(process.env.loginToken)
+.then()
+.catch(err => console.log('error in login', err))

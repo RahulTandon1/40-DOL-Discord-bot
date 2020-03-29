@@ -6,11 +6,30 @@ function getIndiaDate() {
 
 function calcTimeToWait() {
     let rn = getIndiaDate()
-    
-    //
-    let rnMins = rn.getMinutes()
-    let minsToWait = 60 - rnMins
-    let millisecondsToWait = (minsToWait * 60 * 1000)
+    var hrsToWait
+    var minsToWait
+    var millisecondsToWait
+    switch(rn.getHours() % 3) {
+        case 0:
+          // e.g. 9, 12, 15, 18, 21
+          // e.g. 9:34
+          // 2 hrs + 
+          minsToWait = 180 - rn.getMinutes()
+          millisecondsToWait = minsToWait * 60 * 1000
+          break;
+        
+        case 1:
+          minsToWait = 120 - rn.getMinutes()
+          millisecondsToWait = minsToWait * 60 * 1000
+          break;
+        
+        case 2:
+            // e.g. 11, 13, 
+            minsToWait = 60 - rn.getMinutes()
+            millisecondsToWait = minsToWait * 60 * 1000
+            break;
+      }
+
     
     // adding 1 min delay
     millisecondsToWait += (60 * 1000)
