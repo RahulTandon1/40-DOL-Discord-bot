@@ -24,7 +24,7 @@ async function execTimingStuff(client, msgs, learningChannel) {
             let Loopy = client.setInterval(
                 
                 async () => {
-                    
+                    console.log('inside interval')
                     // Check if NOT early (Midnight-8AM) in India
                     if (! (timing.is_early_in_India())) {
                         
